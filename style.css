@@ -1,0 +1,17 @@
+@media only screen and (max-width: 768px){
+    #clickableImage{
+        width: 75% !important;
+    }
+}
+
+.retard-container{
+    height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+#clickableImage{
+    cursor: pointer;
+    width: 25%;
+}
