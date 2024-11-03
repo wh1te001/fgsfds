@@ -1,6 +1,9 @@
+// =======================
+// JSDoc Types
+// =======================
 /**
  * @typedef {Object} DateObject - Object for specifying the event date.
- * @property {number} month - Month number (from 0 to 11).
+ * @property {number} month - Month number.
  * @property {number} day - Day of the month.
  */
 
@@ -12,17 +15,20 @@
  * @property {string} defaultImage - Default sprite name.
  * @property {string} clickedImage - Sprite name for when clicked.
  */
+// =======================
+// End of JSDoc Types
+// =======================
 
 /**
- * The object contains the events during which the sprite should be changed.
+ * The object contains days on which Rika can change her clothes.
  * You can add your own events to this object.
  *
  * @type {Object.<string, EventObject>}
  */
 const events = {
   halloween: {
-    start: { month: 9, day: 1 },
-    end: { month: 9, day: 31 },
+    start: { month: 10, day: 1, year: null },
+    end: { month: 10, day: 31, year: null },
     folder: 'halloween',
     defaultImage: 'Rika_Default.webp',
     clickedImage: 'Rika_Happy.webp'
@@ -38,38 +44,55 @@ const sound = document.getElementById('sound');
 
 /**
  * Checks if the current date falls within the range of any event.
+ * Helping Rika pick out an outfit for the event.
  *
+ * @param {Object} events - An object containing event details.
  * @returns {{folder: string, defaultImage: string, clickedImage: string} | null} -
  * An object with paths to the event images or null if no event is found.
  */
-function getCurrentEvent() {
-  const today = new Date();
-  const month = today.getMonth();
-  const day = today.getDate();
+function getCurrentEvent(events) {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentDay = currentDate.getDate();
 
-  for (const event in events) {
-    const { start, end, folder, defaultImage, clickedImage } = events[event];
+  for (const eventItem in events) {
+    const event = events[eventItem];
 
-    // Case for single-day event
-    if (start.month === end.month && start.day === end.day) {
-      if (month === start.month && day === start.day) {
-        return { folder, defaultImage, clickedImage };
-      }
+    const startYear = event.start.year !== null ? event.start.year : currentYear;
+    const endYear = event.end.year !== null ? event.end.year : currentYear;
+
+    const startDate = new Date(startYear, event.start.month - 1, event.start.day);
+    const endDate = new Date(endYear, event.end.month - 1, event.end.day);
+
+    // Adjust end date for events that span over the end of the year
+    if (startDate > endDate) {
+      endDate.setFullYear(endDate.getFullYear() + 1);
     }
 
-    // Case for events crossing year boundary
-    if (
-      month > start.month ||
-      (month === start.month && day >= start.day) ||
-      (start.month > end.month &&
-        (month < end.month || (month === end.month && day <= end.day))) ||
-      month < end.month ||
-      (month === end.month && day <= end.day)
-    ) {
-      return { folder, defaultImage, clickedImage };
+    // Some complicated logic to accurately determine the current event. ≧ ﹏ ≦
+    const isWithinDateRange = currentDate >= startDate && currentDate <= endDate;
+    const isYearlyEvent = event.start.year === null && event.end.year === null;
+    // prettier-ignore
+    const isSpanningEvent = isYearlyEvent && (
+      (event.start.month < event.end.month &&
+        ((currentMonth > event.start.month && currentMonth < event.end.month) ||
+         (currentMonth === event.start.month && currentDay >= event.start.day) ||
+         (currentMonth === event.end.month && currentDay <= event.end.day))) ||
+      (event.start.month > event.end.month &&
+        ((currentMonth > event.start.month || currentMonth < event.end.month) ||
+         (currentMonth === event.start.month && currentDay >= event.start.day) ||
+         (currentMonth === event.end.month && currentDay <= event.end.day)))
+      );
+
+    if (isWithinDateRange || isSpanningEvent) {
+      return {
+        folder: event.folder,
+        defaultImage: event.defaultImage,
+        clickedImage: event.clickedImage
+      };
     }
   }
-
   return null;
 }
 
@@ -84,25 +107,30 @@ function generateImagePath(folder, imageName) {
   return `src/sprites/${folder}/${imageName}`;
 }
 
-const currentEvent = getCurrentEvent();
-const folder = currentEvent ? currentEvent.folder : defaultFolder;
+/**
+ * Initializes Rika and now she can begin her meaningless existence.
+ */
+function initRika() {
+  const currentEvent = getCurrentEvent(events);
+  const folder = currentEvent ? currentEvent.folder : defaultFolder;
 
-const defaultSrc = generateImagePath(
-  folder,
-  currentEvent ? currentEvent.defaultImage : defaultImage
-);
-const clickedSrc = generateImagePath(
-  folder,
-  currentEvent ? currentEvent.clickedImage : defaultImage
-);
+  const defaultSrc = generateImagePath(folder, currentEvent ? currentEvent.defaultImage : defaultImage);
+  const clickedSrc = generateImagePath(folder, currentEvent ? currentEvent.clickedImage : defaultClickedImage);
 
-image.src = defaultSrc;
-
-image.addEventListener('click', () => {
-  sound.play();
-  image.src = clickedSrc;
-
-  sound.onended = () => {
+  if (image && sound) {
     image.src = defaultSrc;
-  };
-});
+    image.addEventListener('click', () => {
+      sound.play();
+      image.src = clickedSrc;
+
+      sound.onended = () => {
+        image.src = defaultSrc;
+      };
+    });
+  }
+}
+
+initRika();
+
+// Allows you to make functions global. This is necessary for tests to work.
+window.getCurrentEvent = getCurrentEvent;
