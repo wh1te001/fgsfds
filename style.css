@@ -16,6 +16,13 @@ body {
   align-items: flex-end;
   justify-content: center;
 }
+.hanyu-container {
+  height: 0vh;
+  opacity: 30%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: left;
+}
 
 #clickableImage {
   cursor: pointer;
