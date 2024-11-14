@@ -32,6 +32,13 @@ const events = {
     folder: 'halloween',
     defaultImage: 'Rika_Default.webp',
     clickedImage: 'Rika_Happy.webp'
+  },
+  newyear: {
+    start: { month: 11, day: 1, year: null },
+    end: { month: 12, day: 31, year: null },
+    folder: 'newyear',
+    defaultImage: 'Rika__Default_NY.png',
+    clickedImage: 'Rika__Happy_NY.png'
   }
 };
 
