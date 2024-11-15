@@ -46,8 +46,14 @@ const defaultFolder = 'default';
 const defaultImage = 'RikaOG_(1).webp';
 const defaultClickedImage = 'RikaOG_(4).webp';
 
+const defaultImageHanyuu = 'HanyuuOG_(1).webp';
+const defaultClickedImageHanyuu = 'HanyuuOG_(6).webp';
+
 const image = document.getElementById('clickableImage');
 const sound = document.getElementById('sound');
+
+const imageHanyuu = document.getElementById('hanyuuClick');
+const soundHanyuu = document.getElementById('nanodesu');
 
 /**
  * Checks if the current date falls within the range of any event.
@@ -136,8 +142,28 @@ function initRika() {
     });
   }
 }
+function initHanyuu() {
+  const currentEvent = getCurrentEvent(events);
+  const folder = currentEvent ? currentEvent.folder : defaultFolder;
+
+  const defaultHanyuuSrc = generateImagePath(folder, currentEvent ? currentEvent.defaultImage : defaultImageHanyuu);
+  const clickedHanyuuSrc = generateImagePath(folder, currentEvent ? currentEvent.clickedImage : defaultClickedImageHanyuu);
+
+  if (imageHanyuu && soundHanyuu) {
+    imageHanyuu.src = defaultHanyuuSrc;
+    imageHanyuu.addEventListener('click', () => {
+      soundHanyuu.play();
+      imageHanyuu.src = clickedHanyuuSrc;
+
+      soundHanyuu.onended = () => {
+        imageHanyuu.src = defaultHanyuuSrc;
+      };
+    });
+  }
+}
 
 initRika();
+initHanyuu();
 
 // Allows you to make functions global. This is necessary for tests to work.
 window.getCurrentEvent = getCurrentEvent;
