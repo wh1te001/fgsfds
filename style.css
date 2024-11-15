@@ -8,17 +8,21 @@ body {
   #clickableImage {
     width: 75% !important;
   }
+  /* #clickableImageHanyuu {
+    width: 75% !important;
+  }
+  #clickableImageElka {
+    width: 75% !important;
+  } */
 }
 
 .retard-container {
-  position: relative;
-  z-index: 2;
   height: 100vh;
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: space-around;
 }
-
+/* 
 .hanyu-container {
   position: relative;
   z-index: 1;
@@ -36,8 +40,17 @@ body {
   align-items: flex-end;
   justify-content: right;
 }
-
+ */
 #clickableImage {
+  cursor: pointer;
+  width: 25%;
+}
+#clickableImageHanyuu {
+  opacity: 30%;
+  cursor: pointer;
+  width: 25%;
+}
+#clickableImageElka {
   cursor: pointer;
   width: 25%;
 }
