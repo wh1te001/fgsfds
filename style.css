@@ -41,16 +41,17 @@ body {
   justify-content: right;
 }
  */
-#clickableImage {
+.clickableImage {
   cursor: pointer;
   width: 25%;
 }
-#clickableImageHanyuu {
+.clickableImageHanyuu {
   opacity: 30%;
   cursor: pointer;
   width: 25%;
 }
-#clickableImageElka {
+.clickableImageElka {
   cursor: pointer;
   width: 25%;
+  order: 3;
 }
