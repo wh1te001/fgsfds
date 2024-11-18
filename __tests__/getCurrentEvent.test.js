@@ -1,33 +1,25 @@
-require('../sc.js');
+require('../src/js/getCurrentEvent.js');
 
 const events = {
   halloween: {
+    name: 'halloween',
     start: { month: 10, day: 1, year: null },
-    end: { month: 10, day: 31, year: null },
-    folder: 'halloween',
-    defaultImage: 'Rika_Default.webp',
-    clickedImage: 'Rika_Happy.webp'
+    end: { month: 10, day: 31, year: null }
   },
   newyear: {
+    name: 'newyear',
     start: { month: 12, day: 31, year: null },
-    end: { month: 1, day: 1, year: null },
-    folder: 'newyear',
-    defaultImage: 'Rika_NewYear_Default.webp',
-    clickedImage: 'Rika_NewYear_Happy.webp'
+    end: { month: 1, day: 1, year: null }
   },
   watanagashi: {
+    name: 'watanagashi',
     start: { month: 6, day: 19, year: 2024 },
-    end: { month: 6, day: 19, year: 2024 },
-    folder: 'watanagashi',
-    defaultImage: 'Rika_Watanagashi_Default.webp',
-    clickedImage: 'Rika_Watanagashi_Happy.webp'
+    end: { month: 6, day: 19, year: 2024 }
   },
   testday: {
+    name: 'testFolder',
     start: { month: 8, day: 15, year: null },
-    end: { month: 8, day: 19, year: null },
-    folder: 'testFolder',
-    defaultImage: 'test.webp',
-    clickedImage: 'test.webp'
+    end: { month: 8, day: 19, year: null }
   }
 };
 
@@ -45,9 +37,7 @@ describe('getCurrentEvent()', () => {
 
     const result = window.getCurrentEvent(events);
     expect(result).toEqual({
-      folder: 'halloween',
-      defaultImage: 'Rika_Default.webp',
-      clickedImage: 'Rika_Happy.webp'
+      name: 'halloween'
     });
   });
 
@@ -63,9 +53,7 @@ describe('getCurrentEvent()', () => {
 
     const result = getCurrentEvent(events);
     expect(result).toEqual({
-      folder: 'newyear',
-      defaultImage: 'Rika_NewYear_Default.webp',
-      clickedImage: 'Rika_NewYear_Happy.webp'
+      name: 'newyear'
     });
   });
 
@@ -81,9 +69,7 @@ describe('getCurrentEvent()', () => {
 
     const result = getCurrentEvent(events);
     expect(result).toEqual({
-      folder: 'watanagashi',
-      defaultImage: 'Rika_Watanagashi_Default.webp',
-      clickedImage: 'Rika_Watanagashi_Happy.webp'
+      name: 'watanagashi'
     });
   });
 
@@ -99,9 +85,7 @@ describe('getCurrentEvent()', () => {
 
     const result = getCurrentEvent(events);
     expect(result).toEqual({
-      folder: 'testFolder',
-      defaultImage: 'test.webp',
-      clickedImage: 'test.webp'
+      name: 'testFolder'
     });
   });
 
@@ -110,9 +94,7 @@ describe('getCurrentEvent()', () => {
 
     const result = getCurrentEvent(events);
     expect(result).toEqual({
-      folder: 'testFolder',
-      defaultImage: 'test.webp',
-      clickedImage: 'test.webp'
+      name: 'testFolder'
     });
   });
 });
