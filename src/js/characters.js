@@ -19,6 +19,10 @@ const characters = [
         idle: 'RikaOG_(1).webp',
         clicked: 'RikaOG_(4).webp'
       },
+      watanagashi: {
+        idle: 'Rika_Watanagashi__idle.webp',
+        idle: 'Rika_Watanagashi__happy.webp'
+      },
       halloween: {
         idle: 'Rika_Default.webp',
         clicked: 'Rika_Happy.webp'
