@@ -9,11 +9,9 @@
 
 /**
  * @typedef {Object} EventObject - Object containing event data.
+ * @property {string} name - Event name.
  * @property {DateObject} start - Start date of the event.
  * @property {DateObject} end - End date of the event.
- * @property {string} folder - Folder containing sprites for the event.
- * @property {string} defaultImage - Default sprite name.
- * @property {string} clickedImage - Sprite name for when clicked.
  */
 // =======================
 // End of JSDoc Types
@@ -34,6 +32,11 @@ const events = {
   newyear: {
     name: 'newyear',
     start: { month: 11, day: 1, year: null },
-    end: { month: 12, day: 31, year: null }
+    end: { month: 1, day: 1, year: null }
+  },
+  watanagashi: {
+    name: 'watanagashi',
+    start: { month: 6, day: 19, year: null },
+    end: { month: 6, day: 19, year: null }
   }
 };
